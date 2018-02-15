@@ -6,7 +6,8 @@
       :value="value"
       :types="types"
       :config="config"
-      :read-only="readOnly">
+      :read-only="readOnly"
+    >
     </textarea>
   </div>
 </template>
@@ -34,11 +35,105 @@
       },
       config: {
         type: Object,
-        default: () => {}
+        default: () => {
+          return {
+            toolbar: [
+              { name: "clipboard", items: ["Undo", "Redo"] },
+              { name: "styles", items: ["Font", "FontSize"] },
+              {
+                name: "basicstyles",
+                items: [
+                  "Bold",
+                  "Italic",
+                  "Underline",
+                  "Strike",
+                  "RemoveFormat",
+                  "CopyFormatting"
+                ]
+              },
+              {
+                name: "align",
+                items: [
+                  "JustifyLeft",
+                  "JustifyCenter",
+                  "JustifyRight",
+                  "JustifyBlock"
+                ]
+              },
+              {
+                name: "paragraph",
+                items: [
+                  "NumberedList",
+                  "BulletedList",
+                  "-",
+                  "Outdent",
+                  "Indent",
+                  "-",
+                  "Blockquote"
+                ]
+              }
+            ],
+            fontSize_defaultLabel: "12px",
+            autoParagraph: false,
+            customConfig: "",
+            disallowedContent: "img{width,height,float}",
+            extraAllowedContent: "img[width,height,align]",
+            height: 300,
+            bodyClass: "document-editor",
+            format_tags: "p;h1;h2;h3;pre",
+            removeDialogTabs: "image:advanced;link:advanced",
+            stylesSet: [
+              /* Inline Styles */
+              {
+                name: "Marker",
+                element: "span",
+                attributes: { class: "marker" }
+              },
+              { name: "Cited Work", element: "cite" },
+              { name: "Inline Quotation", element: "q" },
+              /* Object Styles */
+              {
+                name: "Special Container",
+                element: "div",
+                styles: {
+                  padding: "5px 10px",
+                  background: "#eee",
+                  border: "1px solid #ccc"
+                }
+              },
+              {
+                name: "Compact table",
+                element: "table",
+                attributes: {
+                  cellpadding: "5",
+                  cellspacing: "0",
+                  border: "1",
+                  bordercolor: "#ccc"
+                },
+                styles: {
+                  "border-collapse": "collapse"
+                }
+              },
+              {
+                name: "Borderless Table",
+                element: "table",
+                styles: {
+                  "border-style": "hidden",
+                  "background-color": "#E6E6FA"
+                }
+              },
+              {
+                name: "Square Bulleted List",
+                element: "ul",
+                styles: { "list-style-type": "square" }
+              }
+            ]
+          };
+        }
       },
       readOnly: {
         type: Boolean,
-        default: () => false
+        default: () => true
       }
     },
     data() {
@@ -111,9 +206,7 @@
       },
       onChange() {
         let html = this.instance.getData();
-        if (html !== this.value) {
-          this.$emit("input", html);
-        }
+        this.$emit("change", html);
       },
       onBlur() {
         this.$emit("blur", this.instance);
