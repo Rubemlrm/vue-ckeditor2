@@ -17,10 +17,11 @@
 
 
 
+
 var inc = new Date().getTime();
 
-var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ckeditor"},[_c('textarea',{attrs:{"name":_vm.name,"id":_vm.id,"types":_vm.types,"config":_vm.config},domProps:{"value":_vm.value}})])},staticRenderFns: [],
-  name: 'vue-ckeditor',
+var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ckeditor"},[_c('textarea',{attrs:{"name":_vm.name,"id":_vm.id,"types":_vm.types,"config":_vm.config,"read-only":_vm.readOnly},domProps:{"value":_vm.value}})])},staticRenderFns: [],
+  name: "vue-ckeditor",
   props: {
     name: {
       type: String,
@@ -40,60 +41,75 @@ var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
     config: {
       type: Object,
       default: function () {}
+    },
+    readOnly: {
+      type: Boolean,
+      default: function () { return false; }
     }
   },
-  data: function data () {
-    return { destroyed: false }
+  data: function data() {
+    return { destroyed: false };
   },
   computed: {
-    instance: function instance () {
-      return CKEDITOR.instances[this.id]
+    instance: function instance() {
+      return CKEDITOR.instances[this.id];
     }
   },
   watch: {
-    value: function value (val) {
+    value: function value(val) {
       try {
         if (this.instance) {
           this.update(val);
         }
       } catch (e) {}
+    },
+    readOnly: function readOnly(value) {
+      try {
+        if (this.instance) {
+          this.instance.setReadOnly(value);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   },
-  mounted: function mounted () {
+  mounted: function mounted() {
     this.create();
   },
-  beforeDestroy: function beforeDestroy () {
+  beforeDestroy: function beforeDestroy() {
     this.destroy();
   },
   methods: {
-    create: function create () {
+    create: function create() {
       var this$1 = this;
 
-      if (typeof CKEDITOR === 'undefined') {
-        console.log('CKEDITOR is missing (http://ckeditor.com/)');
+      if (typeof CKEDITOR === "undefined") {
+        console.log("CKEDITOR is missing (http://ckeditor.com/)");
       } else {
-        if (this.types === 'inline') {
-            CKEDITOR.inline(this.id, this.config);
+        if (this.types === "inline") {
+          CKEDITOR.inline(this.id, this.config);
         } else {
-            CKEDITOR.replace(this.id, this.config);
+          CKEDITOR.replace(this.id, this.config);
         }
-
         this.instance.setData(this.value);
-        this.instance.on('instanceReady', function () {
+        this.instance.on("instanceReady", function () {
           this$1.instance.setData(this$1.value);
         });
-        this.instance.on('change', this.onChange);
-        this.instance.on('blur', this.onBlur);
-        this.instance.on('focus', this.onFocus);
+        this.instance.on("change", this.onChange);
+        this.instance.on("blur", this.onBlur);
+        this.instance.on("focus", this.onFocus);
       }
+      CKEDITOR.on("instanceReady", function (event) {
+        event.editor.setReadOnly(this$1.readOnly);
+      });
     },
-    update: function update (val) {
+    update: function update(val) {
       var html = this.instance.getData();
       if (html !== val) {
         this.instance.setData(val, { internal: false });
       }
     },
-    destroy: function destroy () {
+    destroy: function destroy() {
       if (!this.destroyed) {
         this.instance.focusManager.blur(true);
         this.instance.removeAllListeners();
@@ -101,20 +117,20 @@ var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
         this.destroyed = true;
       }
     },
-    onChange: function onChange () {
+    onChange: function onChange() {
       var html = this.instance.getData();
       if (html !== this.value) {
-        this.$emit('input', html);
+        this.$emit("input", html);
       }
     },
-    onBlur: function onBlur () {
-      this.$emit('blur', this.instance);
+    onBlur: function onBlur() {
+      this.$emit("blur", this.instance);
     },
-    onFocus: function onFocus () {
-      this.$emit('focus', this.instance);
+    onFocus: function onFocus() {
+      this.$emit("focus", this.instance);
     }
   }
-}
+};
 
 return Ckeditor;
 

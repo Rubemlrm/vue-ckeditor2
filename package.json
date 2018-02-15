@@ -21,7 +21,11 @@
     "type": "git",
     "url": "git+https://github.com/dangvanthanh/vue-ckeditor2.git"
   },
-  "keywords": ["vue", "ckeditor", "vue-ckeditor"],
+  "keywords": [
+    "vue",
+    "ckeditor",
+    "vue-ckeditor"
+  ],
   "license": "MIT",
   "devDependencies": {
     "rollup": "^0.54.1",
