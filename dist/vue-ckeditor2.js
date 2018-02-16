@@ -45,7 +45,6 @@ var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
         return {
           toolbar: [
             { name: "clipboard", items: ["Undo", "Redo"] },
-            { name: "styles", items: ["Font", "FontSize"] },
             {
               name: "basicstyles",
               items: [

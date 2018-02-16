@@ -39,7 +39,6 @@
           return {
             toolbar: [
               { name: "clipboard", items: ["Undo", "Redo"] },
-              { name: "styles", items: ["Font", "FontSize"] },
               {
                 name: "basicstyles",
                 items: [
