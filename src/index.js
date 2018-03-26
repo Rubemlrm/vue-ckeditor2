@@ -1,3 +1,3 @@
-import Ckeditor from './Ckeditor.vue'
+ import Ckeditor from './Ckeditor.vue'
 
 export default Ckeditor

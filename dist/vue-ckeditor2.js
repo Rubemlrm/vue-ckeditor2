@@ -4,7 +4,7 @@
 	(global.VueCkeditor2 = factory());
 }(this, (function () { 'use strict';
 
-(function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=" .ckeditor::after { content: \"\"; display: table; clear: both; } "; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
+(function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=" .ckeditor::after { content: ''; display: table; clear: both; } "; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
 
 
 
@@ -22,7 +22,7 @@
 var inc = new Date().getTime();
 
 var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ckeditor"},[_c('textarea',{attrs:{"name":_vm.name,"id":_vm.id,"types":_vm.types,"config":_vm.config,"read-only":_vm.readOnly},domProps:{"value":_vm.value}})])},staticRenderFns: [],
-  name: "vue-ckeditor",
+  name: 'vue-ckeditor',
   props: {
     name: {
       type: String,
@@ -41,100 +41,7 @@ var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
     },
     config: {
       type: Object,
-      default: function () {
-        return {
-          toolbar: [
-            { name: "clipboard", items: ["Undo", "Redo"] },
-            {
-              name: "basicstyles",
-              items: [
-                "Bold",
-                "Italic",
-                "Underline",
-                "Strike",
-                "RemoveFormat",
-                "CopyFormatting"
-              ]
-            },
-            {
-              name: "align",
-              items: [
-                "JustifyLeft",
-                "JustifyCenter",
-                "JustifyRight",
-                "JustifyBlock"
-              ]
-            },
-            {
-              name: "paragraph",
-              items: [
-                "NumberedList",
-                "BulletedList",
-                "-",
-                "Outdent",
-                "Indent",
-                "-",
-                "Blockquote"
-              ]
-            }
-          ],
-          fontSize_defaultLabel: "12px",
-          autoParagraph: false,
-          customConfig: "",
-          disallowedContent: "img{width,height,float}",
-          extraAllowedContent: "img[width,height,align]",
-          height: 300,
-          bodyClass: "document-editor",
-          format_tags: "p;h1;h2;h3;pre",
-          removeDialogTabs: "image:advanced;link:advanced",
-          stylesSet: [
-            /* Inline Styles */
-            {
-              name: "Marker",
-              element: "span",
-              attributes: { class: "marker" }
-            },
-            { name: "Cited Work", element: "cite" },
-            { name: "Inline Quotation", element: "q" },
-            /* Object Styles */
-            {
-              name: "Special Container",
-              element: "div",
-              styles: {
-                padding: "5px 10px",
-                background: "#eee",
-                border: "1px solid #ccc"
-              }
-            },
-            {
-              name: "Compact table",
-              element: "table",
-              attributes: {
-                cellpadding: "5",
-                cellspacing: "0",
-                border: "1",
-                bordercolor: "#ccc"
-              },
-              styles: {
-                "border-collapse": "collapse"
-              }
-            },
-            {
-              name: "Borderless Table",
-              element: "table",
-              styles: {
-                "border-style": "hidden",
-                "background-color": "#E6E6FA"
-              }
-            },
-            {
-              name: "Square Bulleted List",
-              element: "ul",
-              styles: { "list-style-type": "square" }
-            }
-          ]
-        };
-      }
+      default: function () {}
     },
     readOnly: {
       type: Boolean,
@@ -142,11 +49,107 @@ var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
     }
   },
   data: function data() {
-    return { destroyed: false };
+    return {
+      destroyed: false,
+      mergedConfig: {},
+      defaultConfigOptions: {
+        toolbar: [
+          { name: 'clipboard', items: ['Undo', 'Redo'] },
+          {
+            name: 'basicstyles',
+            items: [
+              'Bold',
+              'Italic',
+              'Underline',
+              'Strike',
+              'RemoveFormat',
+              'CopyFormatting'
+            ]
+          },
+          {
+            name: 'align',
+            items: [
+              'JustifyLeft',
+              'JustifyCenter',
+              'JustifyRight',
+              'JustifyBlock'
+            ]
+          },
+          {
+            name: 'paragraph',
+            items: [
+              'NumberedList',
+              'BulletedList',
+              '-',
+              'Outdent',
+              'Indent',
+              '-',
+              'Blockquote'
+            ]
+          }
+        ],
+        fontSize_defaultLabel: '12px',
+        autoParagraph: false,
+        allowedContent: false,
+        customConfig: '',
+        disallowedContent: 'img{width,height,float}',
+        extraAllowedContent: 'img[width,height,align]',
+        height: 300,
+        bodyClass: 'document-editor',
+        format_tags: 'p;h1;h2;h3;pre',
+        removeDialogTabs: 'image:advanced;link:advanced',
+        stylesSet: [
+          /* Inline Styles */
+          {
+            name: 'Marker',
+            element: 'span',
+            attributes: { class: 'marker' }
+          },
+          { name: 'Cited Work', element: 'cite' },
+          { name: 'Inline Quotation', element: 'q' },
+          /* Object Styles */
+          {
+            name: 'Special Container',
+            element: 'div',
+            styles: {
+              padding: '5px 10px',
+              background: '#eee',
+              border: '1px solid #ccc'
+            }
+          },
+          {
+            name: 'Compact table',
+            element: 'table',
+            attributes: {
+              cellpadding: '5',
+              cellspacing: '0',
+              border: '1',
+              bordercolor: '#ccc'
+            },
+            styles: {
+              'border-collapse': 'collapse'
+            }
+          },
+          {
+            name: 'Borderless Table',
+            element: 'table',
+            styles: {
+              'border-style': 'hidden',
+              'background-color': '#E6E6FA'
+            }
+          },
+          {
+            name: 'Square Bulleted List',
+            element: 'ul',
+            styles: { 'list-style-type': 'square' }
+          }
+        ]
+      }
+    }
   },
   computed: {
     instance: function instance() {
-      return CKEDITOR.instances[this.id];
+      return CKEDITOR.instances[this.id]
     }
   },
   watch: {
@@ -168,6 +171,34 @@ var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
     }
   },
   mounted: function mounted() {
+    Object.extend = function(defaultOptions, userOptions) {
+      for (var property in userOptions) {
+        if (
+          userOptions.hasOwnProperty(property) &&
+          Array.isArray(userOptions[property])
+        ) {
+          for (var index in userOptions[property]) {
+            for (var index2 in defaultOptions[property]) {
+              if (
+                defaultOptions[property][index2]['name'] ==
+                userOptions[property][index]['name']
+              ) {
+                defaultOptions[property][index2] = userOptions[property][index];
+              }
+            }
+          }
+        } else if (
+          userOptions.hasOwnProperty(property) &&
+          typeof userOptions[property] === 'object'
+        ) {
+          Object.extend(defaultOptions[property], userOptions[property]);
+        } else if (userOptions.hasOwnProperty(property)) {
+          defaultOptions[property] = userOptions[property];
+        }
+      }
+      return defaultOptions
+    };
+    this.mergedConfig = Object.extend(this.defaultConfigOptions, this.config);
     this.create();
   },
   beforeDestroy: function beforeDestroy() {
@@ -177,23 +208,23 @@ var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
     create: function create() {
       var this$1 = this;
 
-      if (typeof CKEDITOR === "undefined") {
-        console.log("CKEDITOR is missing (http://ckeditor.com/)");
+      if (typeof CKEDITOR === 'undefined') {
+        console.log('CKEDITOR is missing (http://ckeditor.com/)');
       } else {
-        if (this.types === "inline") {
-          CKEDITOR.inline(this.id, this.config);
+        if (this.types === 'inline') {
+          CKEDITOR.inline(this.id, this.mergedConfig);
         } else {
-          CKEDITOR.replace(this.id, this.config);
+          CKEDITOR.replace(this.id, this.mergedConfig);
         }
         this.instance.setData(this.value);
-        this.instance.on("instanceReady", function () {
+        this.instance.on('instanceReady', function () {
           this$1.instance.setData(this$1.value);
         });
-        this.instance.on("change", this.onChange);
-        this.instance.on("blur", this.onBlur);
-        this.instance.on("focus", this.onFocus);
+        this.instance.on('change', this.onChange);
+        this.instance.on('blur', this.onBlur);
+        this.instance.on('focus', this.onFocus);
       }
-      CKEDITOR.on("instanceReady", function (event) {
+      CKEDITOR.on('instanceReady', function (event) {
         event.editor.setReadOnly(this$1.readOnly);
       });
     },
@@ -213,16 +244,16 @@ var Ckeditor = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c
     },
     onChange: function onChange() {
       var html = this.instance.getData();
-      this.$emit("change", html);
+      this.$emit('change', html);
     },
     onBlur: function onBlur() {
-      this.$emit("blur", this.instance);
+      this.$emit('blur', this.instance);
     },
     onFocus: function onFocus() {
-      this.$emit("focus", this.instance);
+      this.$emit('focus', this.instance);
     }
   }
-};
+}
 
 return Ckeditor;
 
